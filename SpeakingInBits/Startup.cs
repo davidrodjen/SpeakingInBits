@@ -32,7 +32,8 @@ namespace SpeakingInBits
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(IdentityHelper.SetIdentityOptions)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<IdentityRole>() //Adds role support in DB, ADD THIS
+                .AddEntityFrameworkStores<ApplicationDbContext>(); //Sets up configuration identity settings
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -68,6 +69,11 @@ namespace SpeakingInBits
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            // Create roles here
+            IServiceScope serviceProvider = app.ApplicationServices.GetRequiredService<IServiceProvider>().CreateScope(); //Dependency injection
+
+            IdentityHelper.CreateRoles(serviceProvider.ServiceProvider, IdentityHelper.Instructor, IdentityHelper.Student).Wait();
         }
     }
 }
