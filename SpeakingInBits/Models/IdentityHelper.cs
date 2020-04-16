@@ -52,5 +52,32 @@ namespace SpeakingInBits.Models
                 }
             }
         }
+
+        // Created by generating method from Startup, changed a few things
+        public static async Task CreateDefaultInstructor(IServiceProvider serviceProvider)
+        {
+            const string email = "computerprogramming@cptc.edu";
+            const string username = "instructor";
+            const string password = "Programming";
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+            // Check if any users are in database
+            if(userManager.Users.Count() == 0)
+            {
+                IdentityUser instructor = new IdentityUser()
+                {
+                    Email = email,
+                    UserName = username
+
+                };
+
+                // Create instructor
+                await userManager.CreateAsync(instructor, password);
+
+                // Add to instructor role
+                await userManager.AddToRoleAsync(instructor, Instructor);
+            }
+        }
     }
 }
