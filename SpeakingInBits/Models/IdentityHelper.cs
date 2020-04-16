@@ -14,6 +14,11 @@ namespace SpeakingInBits.Models
 
         public const string Student = "Stu";
 
+        /// <summary>
+        /// Used when user is instructor or student. If role values are updated, update this string as well.
+        /// </summary>
+        // public const string InstructorOrStudent = "Instructor,Stu";
+
         public static void SetIdentityOptions(IdentityOptions options)
         {
             // Setting Sign in options, created a method and passed above
