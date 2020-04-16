@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SpeakingInBits.Models;
 
 namespace SpeakingInBits.Data
 {
@@ -12,5 +13,10 @@ namespace SpeakingInBits.Data
             : base(options)
         {
         }
+
+        /// <summary>
+        /// https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-3.1&tabs=visual-studio
+        /// </summary>
+        public DbSet<VideoLesson> VideoLessons { get; set; }
     }
 }
