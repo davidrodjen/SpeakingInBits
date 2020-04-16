@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using SpeakingInBits.Models;
 
 namespace SpeakingInBits.Areas.Identity.Pages.Account
 {
@@ -40,6 +41,13 @@ namespace SpeakingInBits.Areas.Identity.Pages.Account
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
             StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+
+            // Adds to enrollment as a student user automatically.
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, IdentityHelper.Student);
+            }
+
             return Page();
         }
     }
